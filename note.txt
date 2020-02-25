@@ -1,0 +1,50 @@
+//Ctrl+D		：删除一行
+//Alt+/ 		：提示
+//Ctrl+1		：只写new的右边，生成变量名
+//Alt+Shift+S	：get()set()、toString()、构造方法
+//Ctrl+Alt+↓或↑	：复制快捷键
+//Alt+↓或↑		：移动代码
+//Ctrl+Shift+T	：搜索类
+//Ctrl+O		：显示本类所有方法
+//Ctrl+Shift+O	：添加包并删除多余包
+
+【多态】：	A:成员变量：编译看左边，执行看左边。
+        B:成员方法：编译看左边，执行看右边。
+
+一、PO :(persistant object )，持久对象
+二、VO :(value object) ，值对象
+三、DAO :(Data Access Objects)  ，数据访问对象接口
+四、BO :(Business Object)，业务对象层
+五、POJO :(Plain Old Java Objects)，简单的Java对象
+六丶DTO :(Data Transfer Object)，数据传输对象
+七、JavaBean :一种可重用组件,一次性编写，任何地方执行，任何地方重用。
+
+1.管理类——》很多类——》类的功能不同
+根据类的功能不同，将相同功能的类放到同一个包中
+窗口类——》com.jt.frame包
+面板类——》com.jt.panel包
+对数据库操作类——》com.jt.dao包
+实体类——》com.jt.po包
+工具类（数据库工具包）——》com.jt.util包
+
+2.创建数据库snakegame
+用户表user
+排行表rank
+ 
+3.创建登录界面
+a.创建登录界面窗体类LoginFrame(com.jt.frame)
+设置图标——》Image——》ImageIcon——》getImage()
+创建图片的工具类ImageUtil(com.jt.util)
+b.创建登录界面的面板类LoginPanel(com.jt.panel)
+根据用户名以及密码对user表查询Jdbc
+对user表的操作——》UserDao(com.jt.dao)
+
+
+
+
+
+
+
+
+
+
