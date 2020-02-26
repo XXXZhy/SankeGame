@@ -1,6 +1,10 @@
 package com.jt.util;
 
 import java.awt.Image;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.print.attribute.HashAttributeSet;
 
 /**
  * 配置信息
@@ -46,5 +50,4 @@ public class Config {
 	//大逃杀
 	public static boolean isBattle=false;
 	public static int timeWall=0;
-	
 }

@@ -29,11 +29,12 @@ public class DoubleSnakePanel extends SnakePanel{
 	SnakeThread1 snakeThread1=new SnakeThread1();//创建贪吃蛇移动线程的对象
 	SnakeThread2 snakeThread2=new SnakeThread2();//创建贪吃蛇移动线程的对象
 	Image bg_game=ImageUtil.getImage("img/bg_game.jpg");//背景图片
-	
+	Set set=map.getSet();//墙集合
 	
 	public DoubleSnakePanel() {
 		super();
 		//启动蛇移动的线程
+		
 		snakeThread1.start();
 		snakeThread2.start();
 	}
@@ -61,29 +62,26 @@ public class DoubleSnakePanel extends SnakePanel{
 		
 		@Override
 		public void run() {
-				//蛇持续移动
-				while(Config.isLivePlayer1&&!Config.isGameOver) {
-					//当前线程休息
-					try {
-						Thread.sleep(Config.speedPlayer1);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					if(Config.isRunning) {
+			//蛇持续移动
+			while(Config.isLivePlayer1&&!Config.isGameOver) {
+				//当前线程休息
+				try {
+					Thread.sleep(Config.speedPlayer1);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				if(Config.isRunning) {
 						//调用蛇移动的方法
-						synchronized (Map.class) {
-							snake1.move(map.getSet(),snake2);//传障碍物集合
-							//重绘
-							repaint();	
-						}
-						
+						snake1.move(set,snake2);//传障碍物集合
+						//重绘
+						repaint();	
 					}
-				}
-				if(!Config.isLivePlayer1&&!Config.isStop) {
-					JOptionPane.showMessageDialog(DoubleSnakePanel.this, "玩家2  获胜！", "消息", JOptionPane.INFORMATION_MESSAGE);
-					Config.scorePlayer2++;//玩家2分数+1
-				}
 					
+			}	
+			if(!Config.isLivePlayer1&&!Config.isStop) {
+				JOptionPane.showMessageDialog(DoubleSnakePanel.this, "玩家2  获胜！", "消息", JOptionPane.INFORMATION_MESSAGE);
+				Config.scorePlayer2++;//玩家2分数+1
+			}		
 		}
 	}
 	
@@ -92,28 +90,25 @@ public class DoubleSnakePanel extends SnakePanel{
 		
 		@Override
 		public void run() {
-				//蛇持续移动
-				while(Config.isLivePlayer2&&!Config.isGameOver) {
-					//当前线程休息
-					try {
-						Thread.sleep(Config.speedPlayer2);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					if(Config.isRunning) {
-						synchronized (Map.class) {
-							//调用蛇移动的方法
-							snake2.move(map.getSet(),snake1);//传障碍物集合
-							//重绘
-							repaint();		
-						}
-						
-					}
+			//蛇持续移动
+			while(Config.isLivePlayer2&&!Config.isGameOver) {
+				//当前线程休息
+				try {
+					Thread.sleep(Config.speedPlayer2);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
 				}
-				if(!Config.isLivePlayer2&&!Config.isStop) {
-					JOptionPane.showMessageDialog(DoubleSnakePanel.this, "玩家1  获胜！", "消息", JOptionPane.INFORMATION_MESSAGE);
-					Config.scorePlayer1++;//玩家1分数+1
+				if(Config.isRunning) {
+					//调用蛇移动的方法
+					snake2.move(set,snake1);//传障碍物集合
+					//重绘
+					repaint();		
 				}
+			}
+			if(!Config.isLivePlayer2&&!Config.isStop) {
+				JOptionPane.showMessageDialog(DoubleSnakePanel.this, "玩家1  获胜！", "消息", JOptionPane.INFORMATION_MESSAGE);
+				Config.scorePlayer1++;//玩家1分数+1
+			}
 		}
 	}
 	

@@ -3,11 +3,8 @@ package com.jt.po;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
-import com.jt.dao.RankDao;
 import com.jt.util.Config;
 
 public class DoubleSnake {
@@ -61,8 +58,8 @@ public class DoubleSnake {
 		}
 	}
 	//贪吃蛇移动方法
-	public void move(Set<Wall> set, DoubleSnake foeSnake) {
-		this.set=set;
+	public void move(Set<Wall> set1, DoubleSnake foeSnake) {
+		this.set=set1;
 		this.foeSnake=foeSnake;
 		
 		/*
@@ -72,16 +69,16 @@ public class DoubleSnake {
 		 * 4.判断蛇是否死亡
 		 */
 		addHead();
-		
 		if(!isEat()) {
 			//移除尾结点
 			removeTail();
 		}
 		//判断蛇是否死亡
 		checkDeath();
+		
 	}
-	//判断蛇是否死亡 加锁 不然出现Exception in thread "Thread-7" java.util.ConcurrentModificationException异常
-	private synchronized void checkDeath() {
+	//出现Exception in thread "Thread-7" java.util.ConcurrentModificationException异常   已经解决：Set集合用CopyOnWriteArraySet多线程安全!
+	private void checkDeath() {
 		//越界
 		if(head.row<0||head.row>Config.ROWS-1||head.col<0||head.col>Config.COLS-1) {
 			//越界死亡
@@ -123,24 +120,25 @@ public class DoubleSnake {
 			}
 		}
 		
+		//java.util.ConcurrentModificationException异常，解决不了	 已经解决：Set集合用CopyOnWriteArraySet多线程安全!
 		//蛇撞障碍物则死亡
-		for(Wall wall:set) {
-			if(wall.getRow()==head.row&&wall.getCol()==head.col) {
-				//蛇死亡
-				System.out.println("障碍死亡");
-				if(snakePlayer==1) {
-					Config.isLivePlayer1=false;
-					Config.isGameOver=true;
-					System.out.println("1障碍死亡");
-				} 
-				else if(snakePlayer==2) {
-					Config.isLivePlayer2=false;
-					Config.isGameOver=true;
-					System.out.println("2障碍死亡");
-				} 
-				break;
+			for(Wall wall:set) {
+				if(wall.getRow()==head.row&&wall.getCol()==head.col) {
+					//蛇死亡
+					System.out.println("障碍死亡");
+					if(snakePlayer==1) {
+						Config.isLivePlayer1=false;
+						Config.isGameOver=true;
+						System.out.println("1障碍死亡");
+					} 
+					else if(snakePlayer==2) {
+						Config.isLivePlayer2=false;
+						Config.isGameOver=true;
+						System.out.println("2障碍死亡");
+					} 
+					break;
+				}
 			}
-		}
 		
 		//当墙生成在最后三行时，谁分数高谁获胜
 		if(Config.timeWall==Config.ROWS-4) {

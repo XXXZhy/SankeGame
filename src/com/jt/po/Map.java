@@ -5,11 +5,13 @@ import java.awt.Graphics;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 import com.jt.util.Config;
 
 public class Map {
-	Set<Wall> set=new HashSet<Wall>();
+	//CopyOnWriteArraySet多线程安全!
+	Set<Wall> set=new CopyOnWriteArraySet<Wall>();
 	
 	//构造函数：初始化墙集合Set
 	public Map() {
@@ -121,24 +123,20 @@ public class Map {
 	
 	
 	//大逃杀
+	
 	private void mapFour() {
-		
-		synchronized (Map.class) {
-			//上部分的墙
-			for(int i=0;i<Config.timeWall;i++) {
-				for(int j=0;j<Config.COLS;j++) {
-					Wall wall1 = new Wall(i, j);
-					set.add(wall1);
-				}
+		//上部分的墙
+		for(int i=0;i<Config.timeWall;i++) {
+			for(int j=0;j<Config.COLS;j++) {
+				Wall wall1 = new Wall(i, j);
+				set.add(wall1);
 			}
 		}
-		
-		
 	}
 	
 	
 	
-	synchronized public Set<Wall> getSet() {
+	 public Set<Wall> getSet() {
 			return set;
 		
 	}
